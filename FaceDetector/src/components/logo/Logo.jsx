@@ -1,14 +1,15 @@
 import React from "react";
-import Tilt from 'react-parallax-tilt'
+import Tilt from "react-parallax-tilt";
+import brain from "./brain.png";
 
 const Logo = () => {
-    return (
-        <Tilt className="grid place-content-center size-40 bg-white">
-            <div className="flex justify-center">
-                <h1 className="">This is Cool</h1>
-            </div>
-        </Tilt>
-    )
-}
+  return (
+    <div className="flex justify-center mb-5">
+      <Tilt className="rounded-3xl grid place-content-center size-44 bg-white bg-gradient-to-r from-pink-500 to-indigo-500">
+        <img src={brain} alt="brain" />
+      </Tilt>
+    </div>
+  );
+};
 
 export default Logo;
