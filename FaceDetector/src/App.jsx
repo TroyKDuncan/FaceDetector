@@ -7,6 +7,17 @@ import ParticlesBg from "particles-bg";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [input, setInput] = useState('');
+
+  const onInputChange = (event) => {
+    console.log(event.target.value);
+    setInput(event.target.value)
+    console.log(input)
+  };
+
+  const onButtonDetect = (event) => {
+    console.log('click');
+  };
 
   return (
     <div>
@@ -14,7 +25,10 @@ function App() {
       <Navigation />
       <Logo />
       <Rank />
-      <ImageLinkForm />
+      <ImageLinkForm
+        onInputChange={onInputChange}
+        onButtonDetect={onButtonDetect}
+      />
     </div>
   );
 }
