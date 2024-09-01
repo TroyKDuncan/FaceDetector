@@ -3,20 +3,14 @@ import Navigation from "./components/navigation/Navigation";
 import Logo from "./components/logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Rank from "./components/rank/Rank";
+import FaceRecognition from "./components/faceRecognition/FaceRecognition";
 import ParticlesBg from "particles-bg";
 
 const returnClarifaiRequestOptions = (imageURL) => {
   const PAT = "34a199498cd84f50b50ab92b2ab6fbbb";
-  const USER_ID = "luvche";
-  const APP_ID = "my-app";
-  const MODEL_ID = "face-detection";
   const IMAGE_URL = imageURL;
 
   const raw = JSON.stringify({
-    user_app_id: {
-      user_id: USER_ID,
-      app_id: APP_ID,
-    },
     inputs: [
       {
         data: {
@@ -42,6 +36,7 @@ const returnClarifaiRequestOptions = (imageURL) => {
 
 function App() {
   const [input, setInput] = useState("");
+  const [imageURL, setImageURL] = useState("");
 
   const onInputChange = (event) => {
     console.log(event.target.value);
@@ -51,12 +46,10 @@ function App() {
 
   const onButtonDetect = (event) => {
     console.log("click");
+    setImageURL(input);
 
     fetch(
-      "https://api.clarifai.com/v2/models/" +
-        "face-detection" +
-        "/versions/" +
-        "/outputs",
+      "https://api.clarifai.com/v2/users/luvche/apps/my-app/models/face-detection/outputs",
       returnClarifaiRequestOptions(input)
     )
       .then((response) => response.json())
@@ -69,15 +62,18 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="">
       <ParticlesBg color="#ffffff" type="cobweb" bg={true} />
       <Navigation />
-      <Logo />
-      <Rank />
-      <ImageLinkForm
-        onInputChange={onInputChange}
-        onButtonDetect={onButtonDetect}
-      />
+      <div className="grid justify-center w-full">
+        <Logo />
+        <Rank />
+        <ImageLinkForm
+          onInputChange={onInputChange}
+          onButtonDetect={onButtonDetect}
+        />
+        <FaceRecognition imageURL={imageURL} />
+      </div>
     </div>
   );
 }

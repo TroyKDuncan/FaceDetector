@@ -6,7 +6,7 @@ const ImageLinkForm = ({ onInputChange, onButtonDetect }) => {
       <p className="flex justify-center text-white">
         {"This app will detect faces in the pictures you upload!"}
       </p>
-      <div className="flex justify-center m-5 min-w-96 w-1/3 px-7 py-3 shadow-xl rounded-full bg-slate-800">
+      <div className="flex justify-center m-5 min-w-full px-7 py-3 shadow-xl rounded-full bg-slate-800">
         <input
           type="text"
           className="px-3 mr-2 h-full text-sm w-full rounded-full"
