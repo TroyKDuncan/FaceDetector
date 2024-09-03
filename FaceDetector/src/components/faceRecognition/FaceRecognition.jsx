@@ -1,10 +1,10 @@
 import React from "react";
 import "./FaceRecognition.css";
 
-const FaceRecognition = ({ imageURL, box }) => {
+const FaceRecognition = ({ imageURL, boxes }) => {
   return (
-    <div className="w-full mb-4">
-      <div>
+    <div className="w-full flex justify-center mb-4">
+      <div className="absolute">
         <img
           id="inputimage"
           className="rounded-xl"
@@ -12,7 +12,8 @@ const FaceRecognition = ({ imageURL, box }) => {
           width="500px"
           height="auto"
         />
-        <div
+        {boxes.map((box) => {
+          <div
           className="bounding-box"
           style={{
             top: box.topRow,
@@ -21,6 +22,16 @@ const FaceRecognition = ({ imageURL, box }) => {
             left: box.leftCol,
           }}
         ></div>
+        })}
+        {/* <div
+          className="bounding-box"
+          style={{
+            top: box.topRow,
+            right: box.rightCol,
+            bottom: box.bottomRow,
+            left: box.leftCol,
+          }}
+        ></div> */}
       </div>
     </div>
   );
