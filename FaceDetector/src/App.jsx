@@ -37,11 +37,31 @@ const returnClarifaiRequestOptions = (imageURL) => {
 function App() {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
+  const [box, setBox] = useState("");
 
   const onInputChange = (event) => {
     console.log(event.target.value);
     setInput(event.target.value);
     console.log(input);
+  };
+
+  const calculateFaceLocation = (data) => {
+    const clarifaiFace =
+      data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById("inputimage");
+    const width = Number(image.width);
+    const height = Number(image.height);
+    return {
+      leftCol: clarifaiFace.left_col * width,
+      topRow: clarifaiFace.top_row * height,
+      rightCol: width - clarifaiFace.right_col * width,
+      bottomRow: height - clarifaiFace.bottom_row * height,
+    };
+  };
+
+  const displayFacebox = (myBox) => {
+    setBox(myBox);
+    console.log(box);
   };
 
   const onButtonDetect = (event) => {
@@ -53,12 +73,9 @@ function App() {
       returnClarifaiRequestOptions(input)
     )
       .then((response) => response.json())
-      .then(
-        function (response) {
-          console.log(response);
-        },
-        function (err) {}
-      );
+      .then((response) => displayFacebox(calculateFaceLocation(response)))
+
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -72,7 +89,7 @@ function App() {
           onInputChange={onInputChange}
           onButtonDetect={onButtonDetect}
         />
-        <FaceRecognition imageURL={imageURL} />
+        <FaceRecognition box={box} imageURL={imageURL} />
       </div>
     </div>
   );
