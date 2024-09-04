@@ -37,7 +37,7 @@ const returnClarifaiRequestOptions = (imageURL) => {
 function App() {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [boxes, setBoxes] = useState(0);
+  const [box, setBox] = useState(0);
 
   const onInputChange = (event) => {
     console.log(event.target.value);
@@ -45,38 +45,38 @@ function App() {
     console.log(input);
   };
 
-  const calculateFaceLocations = (data) => {
-    const boxArray = data.outputs[0].data.regions.map((region) => {
-      const clarifaiFace = region.region_info.bounding_box;
-      const image = document.getElementById("inputimage");
-      const width = Number(image.width);
-      const height = Number(image.height);
-      return {
-        leftCol: clarifaiFace.left_col * width,
-        topRow: clarifaiFace.top_row * height,
-        rightCol: width - clarifaiFace.right_col * width,
-        bottomRow: height - clarifaiFace.bottom_row * height,
-      };
-    });
+  const calculateFaceLocation = (data) => {
+    // const boxArray = data.outputs[0].data.regions.map((region) => {
+    //   const clarifaiFace = region.region_info.bounding_box;
+    //   const image = document.getElementById("inputimage");
+    //   const width = Number(image.width);
+    //   const height = Number(image.height);
+    //   return {
+    //     leftCol: clarifaiFace.left_col * width,
+    //     topRow: clarifaiFace.top_row * height,
+    //     rightCol: width - clarifaiFace.right_col * width,
+    //     bottomRow: height - clarifaiFace.bottom_row * height,
+    //   };
+    // });
 
-    return boxArray;
+    // return boxArray;
 
-    // const clarifaiFace =
-    //   data.outputs[0].data.regions[0].region_info.bounding_box;
-    // const image = document.getElementById("inputimage");
-    // const width = Number(image.width);
-    // const height = Number(image.height);
-    // return {
-    //   leftCol: clarifaiFace.left_col * width,
-    //   topRow: clarifaiFace.top_row * height,
-    //   rightCol: width - clarifaiFace.right_col * width,
-    //   bottomRow: height - clarifaiFace.bottom_row * height,
-    // };
+    const clarifaiFace =
+      data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById("inputimage");
+    const width = Number(image.width);
+    const height = Number(image.height);
+    return {
+      leftCol: clarifaiFace.left_col * width,
+      topRow: clarifaiFace.top_row * height,
+      rightCol: width - clarifaiFace.right_col * width,
+      bottomRow: height - clarifaiFace.bottom_row * height,
+    };
   };
 
-  const displayFacebox = (myBoxes) => {
-    setBoxes(myBoxes);
-    console.log(boxes);
+  const displayFacebox = (myBox) => {
+    setBox(myBox);
+    console.log(box);
   };
 
   const onButtonDetect = (event) => {
@@ -88,7 +88,8 @@ function App() {
       returnClarifaiRequestOptions(input)
     )
       .then((response) => response.json())
-      .then((response) => displayFacebox(calculateFaceLocations(response)))
+      .then((response) => 
+        displayFacebox(calculateFaceLocation(response)))
 
       .catch((err) => console.log(err));
   };
@@ -104,7 +105,7 @@ function App() {
           onInputChange={onInputChange}
           onButtonDetect={onButtonDetect}
         />
-        <FaceRecognition boxes={boxes} imageURL={imageURL} />
+        <FaceRecognition box={box} imageURL={imageURL} />
       </div>
     </div>
   );
