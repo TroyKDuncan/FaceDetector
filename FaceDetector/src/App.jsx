@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navigation from "./components/navigation/Navigation";
 import Logo from "./components/logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
+import SignIn from "./components/signin/SignIn";
 import Rank from "./components/rank/Rank";
 import FaceRecognition from "./components/faceRecognition/FaceRecognition";
 import ParticlesBg from "particles-bg";
@@ -37,7 +38,8 @@ const returnClarifaiRequestOptions = (imageURL) => {
 function App() {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [box, setBox] = useState(0);
+  const [boxes, setBoxes] = useState([]);
+  const [signedIn, setSignedIn] = useState(false);
 
   const onInputChange = (event) => {
     console.log(event.target.value);
@@ -46,41 +48,24 @@ function App() {
   };
 
   const calculateFaceLocation = (data) => {
-    // const boxArray = data.outputs[0].data.regions.map((region) => {
-    //   const clarifaiFace = region.region_info.bounding_box;
-    //   const image = document.getElementById("inputimage");
-    //   const width = Number(image.width);
-    //   const height = Number(image.height);
-    //   return {
-    //     leftCol: clarifaiFace.left_col * width,
-    //     topRow: clarifaiFace.top_row * height,
-    //     rightCol: width - clarifaiFace.right_col * width,
-    //     bottomRow: height - clarifaiFace.bottom_row * height,
-    //   };
-    // });
-
-    // return boxArray;
-
-    const clarifaiFace =
-      data.outputs[0].data.regions[0].region_info.bounding_box;
+    const regions = data.outputs[0].data.regions;
     const image = document.getElementById("inputimage");
     const width = Number(image.width);
     const height = Number(image.height);
-    return {
-      leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height,
-      rightCol: width - clarifaiFace.right_col * width,
-      bottomRow: height - clarifaiFace.bottom_row * height,
-    };
-  };
+    const faceBoxes = regions.map((region) => {
+      const regionData = region.region_info.bounding_box;
+      return {
+        leftCol: regionData.left_col * width,
+        topRow: regionData.top_row * height,
+        rightCol: width - regionData.right_col * width,
+        bottomRow: height - regionData.bottom_row * height,
+      };
+    });
 
-  const displayFacebox = (myBox) => {
-    setBox(myBox);
-    console.log(box);
+    return faceBoxes;
   };
 
   const onButtonDetect = (event) => {
-    console.log("click");
     setImageURL(input);
 
     fetch(
@@ -88,8 +73,7 @@ function App() {
       returnClarifaiRequestOptions(input)
     )
       .then((response) => response.json())
-      .then((response) => 
-        displayFacebox(calculateFaceLocation(response)))
+      .then((response) => setBoxes(calculateFaceLocation(response)))
 
       .catch((err) => console.log(err));
   };
@@ -98,6 +82,7 @@ function App() {
     <div className="">
       <ParticlesBg color="#ffffff" type="cobweb" bg={true} />
       <Navigation />
+      <SignIn />
       <div className="grid justify-center w-full">
         <Logo />
         <Rank />
@@ -105,7 +90,7 @@ function App() {
           onInputChange={onInputChange}
           onButtonDetect={onButtonDetect}
         />
-        <FaceRecognition box={box} imageURL={imageURL} />
+        <FaceRecognition boxes={boxes} imageURL={imageURL} />
       </div>
     </div>
   );
