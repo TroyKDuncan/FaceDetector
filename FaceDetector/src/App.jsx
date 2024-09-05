@@ -78,12 +78,19 @@ function App() {
       .catch((err) => console.log(err));
   };
 
+  const onSignInClick = (event) => {
+    setSignedIn(true)
+  }
+
+  const onSignOutClick = (event) => {
+    setSignedIn(false)
+  }
+
   return (
     <div className="">
       <ParticlesBg color="#ffffff" type="cobweb" bg={true} />
-      <Navigation />
-      <SignIn />
-      <div className="grid justify-center w-full">
+      {signedIn ? <Navigation onSignOutClick={onSignOutClick} /> : <SignIn onSignInClick={onSignInClick} />}
+      <div className={"grid justify-center w-full" + (signedIn ? "" : " hidden")}>
         <Logo />
         <Rank />
         <ImageLinkForm

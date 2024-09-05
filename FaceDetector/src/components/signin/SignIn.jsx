@@ -1,6 +1,6 @@
 import React from "react";
 
-const SignIn = () => {
+const SignIn = ({ onSignInClick }) => {
   return (
     <div>
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -42,8 +42,9 @@ const SignIn = () => {
                   required=""
                 />
               </div>
-              
+
               <button
+                onClick={onSignInClick}
                 type="submit"
                 className="w-full text-white bg-pink-400 hover:bg-pink-500 focus:ring-2 focus:outline-none focus:ring-white font-medium rounded-full text-sm px-5 py-2.5 text-center"
               >
