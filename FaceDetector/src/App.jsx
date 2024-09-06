@@ -4,8 +4,10 @@ import Logo from "./components/logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import SignIn from "./components/signin/SignIn";
 import Rank from "./components/rank/Rank";
+import Register from "./components/register/Register";
 import FaceRecognition from "./components/faceRecognition/FaceRecognition";
 import ParticlesBg from "particles-bg";
+import ThankYou from "./components/register/ThankYou";
 
 const returnClarifaiRequestOptions = (imageURL) => {
   const PAT = "34a199498cd84f50b50ab92b2ab6fbbb";
@@ -39,7 +41,7 @@ function App() {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [boxes, setBoxes] = useState([]);
-  const [signedIn, setSignedIn] = useState(false);
+  const [route, setRoute] = useState("signIn");
 
   const onInputChange = (event) => {
     console.log(event.target.value);
@@ -65,7 +67,7 @@ function App() {
     return faceBoxes;
   };
 
-  const onButtonDetect = (event) => {
+  const onButtonDetect = () => {
     setImageURL(input);
 
     fetch(
@@ -78,27 +80,34 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  const onSignInClick = (event) => {
-    setSignedIn(true)
-  }
-
-  const onSignOutClick = (event) => {
-    setSignedIn(false)
-  }
+  const onRouteChange = (route) => {
+    setRoute(route);
+    if (route === "signIn") { // When signing out, clear the input and image
+      setImageURL("");
+      setInput("");
+    }
+  };
 
   return (
     <div className="">
       <ParticlesBg color="#ffffff" type="cobweb" bg={true} />
-      {signedIn ? <Navigation onSignOutClick={onSignOutClick} /> : <SignIn onSignInClick={onSignInClick} />}
-      <div className={"grid justify-center w-full" + (signedIn ? "" : " hidden")}>
-        <Logo />
-        <Rank />
-        <ImageLinkForm
-          onInputChange={onInputChange}
-          onButtonDetect={onButtonDetect}
-        />
-        <FaceRecognition boxes={boxes} imageURL={imageURL} />
-      </div>
+      {route === "signIn" ? <SignIn onRouteChange={onRouteChange} /> : null}
+      {route === "home" ? (
+        <div>
+          <Navigation onRouteChange={onRouteChange} />
+          <div className="grid justify-center w-full">
+            <Logo />
+            <Rank />
+            <ImageLinkForm
+              onInputChange={onInputChange}
+              onButtonDetect={onButtonDetect}
+            />
+            <FaceRecognition boxes={boxes} imageURL={imageURL} />
+          </div>
+        </div>
+      ) : null}
+      {route === "register" ? <Register onRouteChange={onRouteChange} /> : null}
+      {route === "thankYou" ? <ThankYou onRouteChange={onRouteChange} /> : null}
     </div>
   );
 }
