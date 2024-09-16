@@ -13,7 +13,7 @@ const ImageLinkForm = ({ onInputChange, onButtonDetect }) => {
           onChange={onInputChange}
         />
         <button
-          className="max-w-fit transition px-5 h-full active:scale-100 ease-in-out hover:scale-110 bg-indigo-500 text-white rounded-full"
+          className="max-w-fit px-5 h-full active:scale-95 bg-pink-400 hover:bg-pink-500 text-white rounded-full"
           onClick={onButtonDetect}
         >
           DETECT

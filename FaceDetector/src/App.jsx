@@ -82,7 +82,8 @@ function App() {
 
   const onRouteChange = (route) => {
     setRoute(route);
-    if (route === "signIn") { // When signing out, clear the input and image
+    if (route === "signIn") {
+      // When signing out, clear the input and image
       setImageURL("");
       setInput("");
     }

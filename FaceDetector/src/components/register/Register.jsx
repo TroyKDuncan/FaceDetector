@@ -77,7 +77,7 @@ const Register = ({ onRouteChange }) => {
               <button
                 onClick={() => onRouteChange("thankYou")}
                 type="submit"
-                className="w-full text-white bg-pink-400 hover:bg-pink-500 focus:ring-2 focus:outline-none focus:ring-white font-medium rounded-full text-sm px-5 py-2.5 text-center"
+                className="w-full text-white bg-pink-400 hover:bg-pink-500 active:scale-95 font-medium rounded-full text-sm px-5 py-2.5 text-center"
               >
                 Register
               </button>

@@ -9,8 +9,8 @@ const SignIn = ({ onRouteChange }) => {
             <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
             </h1>
-            <form className="flex flex-col space-y-4 md:space-y-6" action="#">
-              <div>
+            <form className="flex flex-col space-y-4 md:space-y-6 items-center" action="#">
+              <div className="w-full">
                 <label
                   for="email"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -21,12 +21,12 @@ const SignIn = ({ onRouteChange }) => {
                   type="email"
                   name="email"
                   id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
                   required=""
                 />
               </div>
-              <div>
+              <div className="w-full">
                 <label
                   for="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -46,11 +46,11 @@ const SignIn = ({ onRouteChange }) => {
               <button
                 onClick={() => onRouteChange("home")}
                 type="submit"
-                className="w-full text-white bg-pink-400 hover:bg-pink-500 focus:ring-2 focus:outline-none focus:ring-white font-medium rounded-full text-sm px-5 py-2.5 text-center"
+                className="w-full text-white bg-pink-400 hover:bg-pink-500 active:scale-95 font-medium rounded-full text-sm px-5 py-2.5 text-center"
               >
                 Sign in
               </button>
-              <button onClick={() => onRouteChange("register")} className="max-w- hover:text-gray-500 text-center font-light text-gray-300 dark:text-gray-400">
+              <button onClick={() => onRouteChange("register")} className="max-w-fit text-pink-400 hover:text-pink-500 text-center font-extralight">
                 Register
               </button>
             </form>
